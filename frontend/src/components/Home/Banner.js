@@ -25,7 +25,7 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
       buildItemsList({ items: searchResult, itemsCount: searchResult.length });
       return;
     }
-    updateTitleSearchVal({ title_search_input: input });
+    updateTitleSearchVal({ title_search_input: "" });
     buildItemsList({ items: initItems, itemsCount: initItems.length });
     return;
   };
