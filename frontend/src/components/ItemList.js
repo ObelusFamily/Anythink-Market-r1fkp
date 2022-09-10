@@ -30,10 +30,6 @@ const ItemList = (props) => {
     );
   }
 
-  if (props.items.length === 0 && !props.title_search_input) {
-    return "";
-  }
-
   return (
     <div className="container py-2">
       <div className="row">

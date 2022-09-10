@@ -18,9 +18,10 @@ const mapDispatchToProps = (dispatch) => ({
 const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
   const startSearch = (input) => {
     if (input.length >= 3) {
-      const searchResult = items.filter(
+      const searchResult = initItems.filter(
         (item) => item.title.includes(input) && item
       );
+      console.log(searchResult);
       updateTitleSearchVal({ title_search_input: input });
       buildItemsList({ items: searchResult, itemsCount: searchResult.length });
       return;
