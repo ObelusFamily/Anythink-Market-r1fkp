@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
 import {connect} from "react-redux";
-import agent from "../../agent";
 import {TITLE_SEARCH} from "../../constants/actionTypes";
 import logo from "../../imgs/logo.png";
 
 const mapStateToProps = (state) => {
   return {
-    itemsCount: state.itemList.itemsCount,
+    ...state.itemList,
   };
 };
 
@@ -14,24 +13,22 @@ const mapDispatchToProps = (dispatch) => ({
   buildItemsList: (payload) => dispatch({type: TITLE_SEARCH, payload}),
 });
 
-const Banner = ({itemsCount, buildItemsList}) => {
+const Banner = ({items, initItems, buildItemsList}) => {
   const [input, setInput] = useState("");
-  const [itemsCounter, setItemsCounter] = useState({
-    prev: itemsCount,
-    current: itemsCount,
-  });
 
   useEffect(() => {
-    startSearch(input);
-    setItemsCounter({prev: itemsCounter.current, current: itemsCount});
+    initItems && startSearch(input);
   }, [input]);
 
   const startSearch = (input) => {
     if (input.length >= 3) {
-      buildItemsList(agent.Items.byTitle(input));
+      const searchResult = items.filter(
+        (item) => item.title.includes(input) && item
+      );
+      buildItemsList({items: searchResult, itemsCount: searchResult.length});
       return;
     }
-    buildItemsList(agent.Items.all());
+    buildItemsList({items: initItems, itemsCount: initItems.length});
     return;
   };
   return (

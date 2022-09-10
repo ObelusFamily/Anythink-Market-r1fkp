@@ -37,10 +37,7 @@ router.param("comment", function (req, res, next, id) {
 });
 
 router.get("/", auth.optional, function (req, res, next) {
-  var query =
-    req.query.title && req.query.title.length >= 3
-      ? {title: {$regex: req.query.title}}
-      : {};
+  var query = req.query.title ? {title: {$regex: req.query.title}} : {};
   var limit = 100;
   var offset = 0;
 
