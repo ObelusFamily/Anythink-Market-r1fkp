@@ -16,9 +16,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
-  const [kek, setKek] = useState(false)
+  const [kek, setKek] = useState(false);
   const startSearch = (input) => {
-    setKek(true)
+    setKek(true);
     if (input.length >= 3) {
       const searchResult = items.filter(
         (item) => item.title.includes(input) && item
