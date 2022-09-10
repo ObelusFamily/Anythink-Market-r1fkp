@@ -17,7 +17,6 @@ const ItemList = (props) => {
   if (props.items.length === 0 && props.title_search_input) {
     return (
       <div
-        id="empty"
         className="card rounded-0 text-white w-75 mx-auto py-4 mt-4"
         style={{ background: "rgb(147,112,219,.4)" }}
       >

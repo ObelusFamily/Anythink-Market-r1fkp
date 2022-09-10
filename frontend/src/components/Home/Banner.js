@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { connect } from "react-redux";
 import { TITLE_SEARCH, TITLE_SEARCH_INPUT } from "../../constants/actionTypes";
 import logo from "../../imgs/logo.png";
@@ -16,12 +16,13 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
+  const [kek, setKek] = useState(false)
   const startSearch = (input) => {
+    setKek(true)
     if (input.length >= 3) {
-      const searchResult = initItems.filter(
+      const searchResult = items.filter(
         (item) => item.title.includes(input) && item
       );
-      console.log(searchResult);
       updateTitleSearchVal({ title_search_input: input });
       buildItemsList({ items: searchResult, itemsCount: searchResult.length });
       return;
@@ -45,7 +46,7 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
                 id="search-box"
                 className="form-control my-0 py-1 border-0 shadow-none"
                 type="text"
-                placeholder="Search"
+                placeholder="What is it that you truly desire?"
                 aria-label="Search"
                 onInput={(e) => startSearch(e.target.value)}
               />
@@ -56,6 +57,7 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
               </div>
             </div>
             <span className="col text-left"> the cool stuff.</span>
+            {kek && <div id="empty">kek</div>}
           </div>
         </div>
       </div>
