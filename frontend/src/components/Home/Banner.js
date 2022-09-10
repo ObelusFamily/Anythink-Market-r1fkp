@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from "react";
-import {connect} from "react-redux";
-import {TITLE_SEARCH} from "../../constants/actionTypes";
+import React from "react";
+import { connect } from "react-redux";
+import { TITLE_SEARCH } from "../../constants/actionTypes";
 import logo from "../../imgs/logo.png";
 
 const mapStateToProps = (state) => {
@@ -10,27 +10,22 @@ const mapStateToProps = (state) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  buildItemsList: (payload) => dispatch({type: TITLE_SEARCH, payload}),
+  buildItemsList: (payload) => dispatch({ type: TITLE_SEARCH, payload }),
 });
 
-const Banner = ({items, initItems, buildItemsList}) => {
-  const [input, setInput] = useState("");
-
-  useEffect(() => {
-    initItems && startSearch(input);
-  }, [input]);
-
+const Banner = ({ items, initItems, buildItemsList }) => {
   const startSearch = (input) => {
     if (input.length >= 3) {
       const searchResult = items.filter(
         (item) => item.title.includes(input) && item
       );
-      buildItemsList({items: searchResult, itemsCount: searchResult.length});
+      buildItemsList({ items: searchResult, itemsCount: searchResult.length });
       return;
     }
-    buildItemsList({items: initItems, itemsCount: initItems.length});
+    buildItemsList({ items: initItems, itemsCount: initItems.length });
     return;
   };
+
   return (
     <div className="banner text-white">
       <div className="container p-4 text-center">
@@ -46,7 +41,7 @@ const Banner = ({items, initItems, buildItemsList}) => {
                 type="text"
                 placeholder="Search"
                 aria-label="Search"
-                onInput={(e) => setInput(e.target.value)}
+                onInput={(e) => startSearch(e.target.value)}
               />
               <div className="input-group-append">
                 <span className="input-group-text bg-white border-0">
