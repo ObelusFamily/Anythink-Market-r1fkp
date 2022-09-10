@@ -5,6 +5,7 @@ var Comment = mongoose.model("Comment");
 var User = mongoose.model("User");
 var auth = require("../auth");
 const { sendEvent } = require("../../lib/event");
+const { validateImg } = require("../../middlewares/imageValidator");
 
 // Preload item objects on routes with ':item'
 router.param("item", function(req, res, next, slug) {
@@ -137,13 +138,12 @@ router.get("/feed", auth.required, function(req, res, next) {
   });
 });
 
-router.post("/", auth.required, function(req, res, next) {
+router.post("/", auth.required, validateImg, function(req, res, next) {
   User.findById(req.payload.id)
     .then(function(user) {
       if (!user) {
         return res.sendStatus(401);
       }
-
       var item = new Item(req.body.item);
 
       item.seller = user;
@@ -171,7 +171,7 @@ router.get("/:item", auth.optional, function(req, res, next) {
 });
 
 // update item
-router.put("/:item", auth.required, function(req, res, next) {
+router.put("/:item", auth.required, validateImg, function(req, res, next) {
   User.findById(req.payload.id).then(function(user) {
     if (req.item.seller._id.toString() === req.payload.id.toString()) {
       if (typeof req.body.item.title !== "undefined") {
