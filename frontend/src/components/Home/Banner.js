@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { TITLE_SEARCH } from "../../constants/actionTypes";
+import { TITLE_SEARCH, TITLE_SEARCH_INPUT } from "../../constants/actionTypes";
 import logo from "../../imgs/logo.png";
 
 const mapStateToProps = (state) => {
@@ -11,14 +11,17 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => ({
   buildItemsList: (payload) => dispatch({ type: TITLE_SEARCH, payload }),
+  updateTitleSearchVal: (payload) =>
+    dispatch({ type: TITLE_SEARCH_INPUT, payload }),
 });
 
-const Banner = ({ items, initItems, buildItemsList }) => {
+const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
   const startSearch = (input) => {
     if (input.length >= 3) {
       const searchResult = items.filter(
         (item) => item.title.includes(input) && item
       );
+      updateTitleSearchVal({ title_search_input: input });
       buildItemsList({ items: searchResult, itemsCount: searchResult.length });
       return;
     }

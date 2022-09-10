@@ -11,6 +11,7 @@ import {
   PROFILE_FAVORITES_PAGE_LOADED,
   PROFILE_FAVORITES_PAGE_UNLOADED,
   TITLE_SEARCH,
+  TITLE_SEARCH_INPUT,
 } from "../constants/actionTypes";
 
 const reducer = (state = {}, action) => {
@@ -42,6 +43,11 @@ const reducer = (state = {}, action) => {
         ...state,
         items: action.payload.items,
         itemsCount: action.payload.itemsCount,
+      };
+    case TITLE_SEARCH_INPUT:
+      return {
+        ...state,
+        title_search_input: action.payload.title_search_input,
       };
     case APPLY_TAG_FILTER:
       return {
