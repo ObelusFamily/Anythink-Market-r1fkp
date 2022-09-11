@@ -46,23 +46,23 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
                 get
               </span>
             </span>
-            <div
-              className={`input-group col-6 ${searchOpen ? "flex" : "d-none"}`}
-            >
-              <input
-                id="search-box"
-                className="form-control my-0 py-1 border-0 shadow-none"
-                type="text"
-                placeholder="What is it that you truly desire?"
-                aria-label="Search"
-                onInput={(e) => startSearch(e.target.value)}
-              />
-              <div className="input-group-append">
-                <span className="input-group-text bg-white border-0">
-                  <i className="bi bi-search" aria-hidden="true"></i>
-                </span>
+            {searchOpen && (
+              <div className={`input-group col-6`}>
+                <input
+                  id="search-box"
+                  className="form-control my-0 py-1 border-0 shadow-none"
+                  type="text"
+                  placeholder="What is it that you truly desire?"
+                  aria-label="Search"
+                  onInput={(e) => startSearch(e.target.value)}
+                />
+                <div className="input-group-append">
+                  <span className="input-group-text bg-white border-0">
+                    <i className="bi bi-search" aria-hidden="true"></i>
+                  </span>
+                </div>
               </div>
-            </div>
+            )}
             <span className="col text-left p-1"> the cool stuff.</span>
             {kek && <div id="empty">kek</div>}
           </div>
