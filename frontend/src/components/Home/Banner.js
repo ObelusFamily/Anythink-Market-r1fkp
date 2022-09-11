@@ -38,14 +38,14 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
         <img src={logo} alt="banner" />
         <div className="container">
           <div class="row align-items-center">
-            <span className="col text-right p-0" id="get-part">
+            <span className="col text-right p-0">
               A place to{" "}
-              <span role="button" onClick={() => setSearchOpen(!searchOpen)}>
+              <span id="get-part" role="button" onClick={() => setSearchOpen(!searchOpen)}>
                 get
               </span>
             </span>
             {searchOpen && (
-              <div id="search-box" className="input-group col-6">
+              <div className="input-group col-6">
                 <input
                   id="search-box"
                   className="form-control my-0 py-1 border-0 shadow-none"
