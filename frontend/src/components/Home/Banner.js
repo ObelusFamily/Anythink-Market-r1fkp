@@ -34,13 +34,6 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
     return;
   };
 
-  const cardStyle = {
-    opacity: searchOpen ? "1" : "0",
-    maxHeight: searchOpen ? "100vh" : "0px",
-    maxWidth: searchOpen ? "100%" : "0px",
-    transition: searchOpen ? "opacity .5s, max-width 1s" : "max-width .5s",
-  };
-
   return (
     <div className="banner text-white">
       <div className="container p-4 text-center">
@@ -54,8 +47,7 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
               </span>
             </span>
             <div
-              className={`input-group col-6 ${searchOpen ? "p-2" : "p-0"}`}
-              style={cardStyle}
+              className={`input-group col-6 ${searchOpen ? "flex" : "d-none"}`}
             >
               <input
                 id="search-box"
