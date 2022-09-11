@@ -16,11 +16,9 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
-  const [kek, setKek] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
 
   const startSearch = (input) => {
-    setKek(true);
     if (input.length >= 3) {
       const searchResult = items.filter(
         (item) => item.title.includes(input) && item
@@ -47,7 +45,7 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
               </span>
             </span>
             {searchOpen && (
-              <div className={`input-group col-6`}>
+              <div id="search-box" className="input-group col-6">
                 <input
                   id="search-box"
                   className="form-control my-0 py-1 border-0 shadow-none"
@@ -64,7 +62,6 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
               </div>
             )}
             <span className="col text-left p-1"> the cool stuff.</span>
-            {kek && <div id="empty">kek</div>}
           </div>
         </div>
       </div>
