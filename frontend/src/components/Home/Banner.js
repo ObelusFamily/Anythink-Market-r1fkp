@@ -17,6 +17,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
   const [kek, setKek] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+
   const startSearch = (input) => {
     setKek(true);
     if (input.length >= 3) {
@@ -32,16 +34,29 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
     return;
   };
 
+  const cardStyle = {
+    opacity: searchOpen ? "1" : "0",
+    maxHeight: searchOpen ? "100vh" : "0px",
+    maxWidth: searchOpen ? "100%" : "0px",
+    transition: searchOpen ? "opacity .5s, max-width 1s" : "max-width .5s",
+  };
+
   return (
     <div className="banner text-white">
       <div className="container p-4 text-center">
         <img src={logo} alt="banner" />
         <div className="container">
           <div class="row align-items-center">
-            <span className="col text-right" id="get-part">
-              A place to get
+            <span className="col text-right p-0" id="get-part">
+              A place to{" "}
+              <span role="button" onClick={() => setSearchOpen(!searchOpen)}>
+                get
+              </span>
             </span>
-            <div className="input-group col-6 p-0">
+            <div
+              className={`input-group col-6 ${searchOpen ? "p-2" : "p-0"}`}
+              style={cardStyle}
+            >
               <input
                 id="search-box"
                 className="form-control my-0 py-1 border-0 shadow-none"
@@ -56,7 +71,7 @@ const Banner = ({ items, initItems, buildItemsList, updateTitleSearchVal }) => {
                 </span>
               </div>
             </div>
-            <span className="col text-left"> the cool stuff.</span>
+            <span className="col text-left p-1"> the cool stuff.</span>
             {kek && <div id="empty">kek</div>}
           </div>
         </div>
