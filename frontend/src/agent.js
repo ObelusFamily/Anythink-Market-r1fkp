@@ -2,7 +2,6 @@ import superagentPromise from "superagent-promise";
 import _superagent from "superagent";
 
 const superagent = superagentPromise(_superagent, global.Promise);
-process.env.BACKEND_URL = "https://anythink-market-r1fkp-api.herokuapp.com/"
 const BACKEND_URL =
   process.env.NODE_ENV !== "production"
     ? process.env.REACT_APP_BACKEND_URL
