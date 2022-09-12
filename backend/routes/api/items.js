@@ -36,65 +36,40 @@ router.param("comment", function(req, res, next, id) {
     .catch(next);
 });
 
-router.get("/", auth.optional, function(req, res, next) {
-  var query = {};
-  var limit = 100;
-  var offset = 0;
+router.get("/", auth.optional, async function(req, res, next) {
+  var query = req.query.tag ? query.tagList = { $in: [req.query.tag] } : {};
+  var limit = req.query.limit ?? 100;
+  var offset = req.query.offset ?? 0;
 
-  if (typeof req.query.limit !== "undefined") {
-    limit = req.query.limit;
+  const seller = req.query.seller ? await User.findOne({ username: req.query.seller }) : null
+  const favoriter = req.query.favorited ? await User.findOne({ username: req.query.favorited }) : null
+
+  if (seller) {
+    query.seller = seller._id;
   }
 
-  if (typeof req.query.offset !== "undefined") {
-    offset = req.query.offset;
+  if (favoriter) {
+    query._id = { $in: favoriter.favorites };
+  } else if (req.query.favorited) {
+    query._id = { $in: [] };
   }
 
-  if (typeof req.query.tag !== "undefined") {
-    query.tagList = { $in: [req.query.tag] };
+  const items = await Item.find(query)
+      .limit(Number(limit))
+      .skip(Number(offset))
+      .sort({ createdAt: "desc" })
+      .populate("seller")
+      .exec()
+  const itemsCount = await Item.count(query).exec()
+
+  const result = {
+    items: items.map((item) => {
+      return item.toJSONFor(item.seller);
+    }),
+    itemsCount
   }
 
-  Promise.all([
-    req.query.seller ? User.findOne({ username: req.query.seller }) : null,
-    req.query.favorited ? User.findOne({ username: req.query.favorited }) : null
-  ])
-    .then(function(results) {
-      var seller = results[0];
-      var favoriter = results[1];
-
-      if (seller) {
-        query.seller = seller._id;
-      }
-
-      if (favoriter) {
-        query._id = { $in: favoriter.favorites };
-      } else if (req.query.favorited) {
-        query._id = { $in: [] };
-      }
-
-      return Promise.all([
-        Item.find(query)
-          .limit(Number(limit))
-          .skip(Number(offset))
-          .sort({ createdAt: "desc" })
-          .exec(),
-        Item.count(query).exec(),
-        req.payload ? User.findById(req.payload.id) : null
-      ]).then(async function(results) {
-        var items = results[0];
-        var itemsCount = results[1];
-        var user = results[2];
-        return res.json({
-          items: await Promise.all(
-            items.map(async function(item) {
-              item.seller = await User.findById(item.seller);
-              return item.toJSONFor(user);
-            })
-          ),
-          itemsCount: itemsCount
-        });
-      });
-    })
-    .catch(next);
+  return res.json(result);
 });
 
 router.get("/feed", auth.required, function(req, res, next) {
